@@ -1,0 +1,134 @@
+# -- navigation ----------------------------------------------------------------
+
+# if you're running tmux within iTerm2
+#   - and tmux is 1.9 or 1.9a
+#   - and iTerm2 is configured to let option key act as +Esc
+#   - and iTerm2 is configured to send [1;9A -> [1;9D for option + arrow keys
+# then uncomment the following line to make Meta + arrow keys mapping work
+#set -ga terminal-overrides "*:kUP3=\e[1;9A,*:kDN3=\e[1;9B,*:kRIT3=\e[1;9C,*:kLFT3=\e[1;9D"
+
+
+# -- windows & pane creation ---------------------------------------------------
+
+# new pane retains current path, possible values are:
+#   - true (default)
+#   - false
+tmux_conf_new_pane_retain_current_path=true
+
+# new pane tries to reconnect ssh sessions (experimental), possible values are:
+#   - true
+#   - false (default)
+tmux_conf_new_pane_reconnect_ssh=false
+
+# prompt for session name when creating a new session, possible values are:
+#   - true
+#   - false (default)
+tmux_conf_new_session_prompt=true
+
+
+# -- display -------------------------------------------------------------------
+
+# RGB 24-bit colour support (tmux >= 2.2), possible values are:
+#  - true
+#  - false (default)
+tmux_conf_24b_colour=true
+
+# window style
+tmux_conf_theme_window_fg="default"
+tmux_conf_theme_window_bg="default"
+
+# highlight focused pane (tmux >= 2.1), possible values are:
+#   - true
+#   - false (default)
+tmux_conf_theme_highlight_focused_pane=true
+
+
+# pane border style, possible values are:
+#   - thin (default)
+#   - fat
+tmux_conf_theme_pane_border_style=thin
+
+# terminal title
+#   - built-in variables are:
+#     - #{circled_window_index}
+#     - #{circled_session_name}
+#     - #{hostname}
+#     - #{hostname_ssh}
+#     - #{username}
+#     - #{username_ssh}
+tmux_conf_theme_terminal_title="#h ❐ #S ● #I #W"
+
+
+# -- clipboard -----------------------------------------------------------------
+
+# in copy mode, copying selection also copies to the OS clipboard
+#   - true
+#   - false (default)
+# on macOS, this requires installing reattach-to-user-namespace, see README.md
+# on Linux, this requires xsel or xclip
+tmux_conf_copy_to_os_clipboard=false
+
+
+# -- user customizations -------------------------------------------------------
+# this is the place to override or undo settings
+
+# increase history size
+#set -g history-limit 10000
+
+# start with mouse mode enabled
+set -g mouse on
+
+# force Vi mode
+#   really you should export VISUAL or EDITOR environment variable, see manual
+#set -g status-keys vi
+#set -g mode-keys vi
+
+# replace C-b by C-a instead of using both prefixes
+# set -gu prefix2
+# unbind C-a
+# unbind C-b
+# set -g prefix C-a
+# bind C-a send-prefix
+
+# move status line to top
+#set -g status-position top
+
+set -g status-style fg=white,bg=black
+
+
+
+set-environment -g TMUX_PLUGIN_MANAGER_PATH '~/.tmux/plugins/'
+
+# List of plugins
+set -g @plugin 'tmux-plugins/tpm' 
+set -g @plugin 'tmux-plugins/cpu' 
+set -g @plugin 'tmux-plugins/tmux-battery' 
+set -g @plugin 'tmux-plugins/mem-cpu-load' 
+#set -g @plugin 'tmux-plugins/tmux-sensible' 
+
+set -g @batt_icon_charge_tier8 '🌕'
+set -g @batt_icon_charge_tier7 '🌖'
+set -g @batt_icon_charge_tier6 '🌖'
+set -g @batt_icon_charge_tier5 '🌗'
+set -g @batt_icon_charge_tier4 '🌗'
+set -g @batt_icon_charge_tier3 '🌘'
+set -g @batt_icon_charge_tier2 '🌘'
+set -g @batt_icon_charge_tier1 '🌑'
+set -g @batt_icon_status_charged '🔋'
+set -g @batt_icon_status_charging '⚡'
+set -g @batt_icon_status_discharging '👎'
+set -g @batt_color_status_primary_charged '#3daee9'
+set -g @batt_color_status_primary_charging '#3daee9'
+
+set -g status-right '#{cpu_bg_color} CPU: #{cpu_icon} #{cpu_percentage} | %a %h-%d %H:%M '
+set -g status-right '#(uptime | cut -f 4-5 -d “ “ | cut -f 1 -d “,”) #{battery_status_bg} Batt: #{battery_icon_charge} #{battery_percentage} #{battery_remain} #{cpu_bg_color} CPU: #{cpu_icon} #{cpu_percentage} | %a %h-%d %H:%M '
+# set -g status-right '#{battery_status_bg} Batt: #{battery_graph} #{battery_percentage} #{battery_remain} #{cpu_bg_color} CPU: #{cpu_icon} #{cpu_percentage} | %a %h-%d %H:%M '
+
+#set -g status-right "#[fg=green]#($TMUX_PLUGIN_MANAGER_PATH/tmux-mem-cpu-load/tmux-mem-cpu-load --colors --interval 2)#[default]"
+set -g status-right "#[fg=green]#($~/.tmux/plugins/tpm/tmux-mem-cpu-load/tmux-mem-cpu-load --colors --interval 2)#[default]"
+
+#set -g status-right 'Colors: #{battery_color_bg}bg#[default] #{battery_color_fg}fg#[default] #{battery_color_charge_bg}charge_bg#[default] #{battery_color_charge_fg}charge_fg#[default] #{battery_color_status_bg}status_bg#[default] #{battery_color_status_fg}status_fg#[default] | Graph: #{battery_graph} | Icon: #{battery_icon} | Charge Icon: #{battery_icon_charge} | Status Icon: #{battery_icon_status} | Percent: #{battery_percentage} | Remain: #{battery_remain}'
+set -g status-right-length '150'
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run '~/.tmux/plugins/tpm/tpm'
