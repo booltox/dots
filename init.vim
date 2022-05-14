@@ -135,13 +135,15 @@ endif
 " call plug#begin('~/.vim/plugged')
 " call plug#begin('~/.vim/autoload/plug.vim')
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-Plug 'nvim-treesitter/nvim-treesitter-textobjects', {'do': ':TSUpdate'}
-" Plug 'nvim-treesitter/nvim-treesitter', { 'branch': '0.5-compat', 'do': ':TSUpdate' }
-" Plug 'nvim-treesitter/nvim-treesitter-textobjects', { 'branch': '0.5-compat' }
+" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+" Plug 'nvim-treesitter/nvim-treesitter-textobjects', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter', { 'branch': '0.5-compat', 'do': ':TSUpdate' }
+Plug 'nvim-treesitter/nvim-treesitter-textobjects', { 'branch': '0.5-compat' , 'do': ':TSUpdate'}
 Plug 'tikhomirov/vim-glsl'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'feline-nvim/feline.nvim'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+" Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
 Plug 'bling/vim-bufferline'
 Plug 'jeetsukumaran/vim-buffergator'
 Plug 'wfxr/minimap.vim'
@@ -150,6 +152,9 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'mhinz/vim-grepper'
+Plug 'nvim-lualine/lualine.nvim'
+" If you want to have icons in your statusline choose one of these
+Plug 'kyazdani42/nvim-web-devicons'
 " Plug 'kyazdani42/nvim-web-devicons'
 " Plug 'romgrk/barbar.nvim'
 
@@ -158,6 +163,9 @@ Plug 'mhinz/vim-grepper'
 Plug 'arcticicestudio/nord-vim'
 Plug 'srcery-colors/srcery-vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
+
+" Plug 'nvim-lua/plenary.nvim'
+Plug 'hoschi/yode-nvim'
 call plug#end()
 
 " Load all Plugins now
@@ -202,18 +210,25 @@ nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_splits = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#show_splits = 1
+" let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 let g:minimap_width = 10
 let g:minimap_auto_start = 0
 let g:minimap_auto_start_win_enter = 0
 
 
-lua <<EOF
+lua << EOF
 require'nvim-treesitter.configs'.setup {
-  highlight = {
+    -- A list of parser names, or "all"
+    -- ensure_installed = "maintained",
+    -- ensure_installed = { "all" },
+
+    -- Install parsers synchronously (only applied to `ensure_installed`)
+    sync_install = false,
+
+    highlight = {
     enable = true,
     custom_captures = {
       -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
@@ -225,11 +240,7 @@ require'nvim-treesitter.configs'.setup {
     -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
   },
-}
-EOF
 
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -239,17 +250,84 @@ require'nvim-treesitter.configs'.setup {
       node_decremental = "grm",
     },
   },
-}
-EOF
 
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
   indent = {
     enable = true
-  }
+  },
+
 }
 EOF
 
+
+"+-------------------------------------------------+
+"| A | B | C                             X | Y | Z |
+"+-------------------------------------------------+
+lua << EOF
+require('lualine').setup {
+  options = {
+    icons_enabled = false,
+    theme = 'auto',
+    -- component_separators = { left = '', right = ''},
+    -- section_separators = { left = '', right = ''},
+    component_separators = { left = '|', right = '|'},
+    section_separators = { left = '|', right = '|'},
+    disabled_filetypes = {},
+    always_divide_middle = true,
+    globalstatus = false,
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  extensions = {}
+}
+EOF
+
+lua << EOF
+require('yode-nvim').setup({})
+EOF
+
+map <Leader>yc      :YodeCreateSeditorFloating<CR>
+map <Leader>yr :YodeCreateSeditorReplace<CR>
+nmap <Leader>bd :YodeBufferDelete<cr>
+imap <Leader>bd <esc>:YodeBufferDelete<cr>
+" these commands fall back to overwritten keys when cursor is in split window
+map <C-W>r :YodeLayoutShiftWinDown<CR>
+map <C-W>R :YodeLayoutShiftWinUp<CR>
+map <C-W>J :YodeLayoutShiftWinBottom<CR>
+map <C-W>K :YodeLayoutShiftWinTop<CR>
+" at the moment this is needed to have no gap for floating windows
+set showtabline=2
+" end yode
+"
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
+" echo nvim_treesitter#statusline(90)  " 90 can be any length
+" module->expression_statement->call->identifier
 
+if exists('+termguicolors')
+  let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
+set termguicolors
+" lua << EOF
+" require("bufferline").setup{}
+" EOF
+
+" lua <<EOF
+" " require('feline').setup()
+" EOF
