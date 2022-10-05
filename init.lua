@@ -75,6 +75,9 @@ vim.o.mouse = 'a'
 -- Enable break indent
 vim.o.breakindent = true
 
+-- Disable word wrap
+vim.opt.wrap = false
+
 -- Save undo history
 vim.o.undofile = true
 
