@@ -27,6 +27,7 @@ require('packer').startup(function(use)
   use 'tpope/vim-sleuth'                                                               -- Detect tabstop and shiftwidth automatically
   -- use 'jeetsukumaran/vim-buffergator'
   use 'tikhomirov/vim-glsl'
+  use {'ojroques/nvim-hardline'}
 
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -142,6 +143,15 @@ require('lualine').setup {
     theme = 'onedark',
     component_separators = '|',
     section_separators = '',
+  },
+}
+
+require('hardline').setup {
+ bufferline = true,
+  bufferline_settings = {
+      exclude_terminal = false,
+      show_index = true,
+      separator = '|',
   },
 }
 
