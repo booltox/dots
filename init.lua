@@ -21,7 +21,6 @@ require('packer').startup(function(use)
   use 'williamboman/mason-lspconfig.nvim'                                              -- Automatically install language servers to stdpath
   use { 'hrsh7th/nvim-cmp', requires = { 'hrsh7th/cmp-nvim-lsp' } }                    -- Autocompletion
   use { 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip' } }                -- Snippet Engine and Snippet Expansion
-  use 'mjlbach/onedark.nvim'                                                           -- Theme inspired by Atom
   use 'nvim-lualine/lualine.nvim'                                                      -- Fancier statusline
   use 'lukas-reineke/indent-blankline.nvim'                                            -- Add indentation guides even on blank lines
   use 'tpope/vim-sleuth'                                                               -- Detect tabstop and shiftwidth automatically
@@ -46,6 +45,11 @@ require('packer').startup(function(use)
       }
     end
   }
+  use 'srcery-colors/srcery-vim'
+  use 'mjlbach/onedark.nvim'                                                           -- Theme inspired by Atom
+  use 'Mofiqul/dracula.nvim'
+  use 'arcticicestudio/nord-vim'
+
   if is_bootstrap then
     require('packer').sync()
   end
@@ -109,6 +113,13 @@ vim.cmd [[colorscheme onedark]]
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
+-- Better Netrw
+vim.g.netrw_banner = 0 -- Hide banner
+vim.g.netrw_browse_split = 4 -- Open in previous window
+vim.g.netrw_altv = 1 -- Open with right splitting
+vim.g.netrw_liststyle = 3 -- Tree-style view
+vim.g.netrw_list_hide = (vim.fn["netrw_gitignore#Hide"]()) .. [[,\(^\|\s\s\)\zs\.\S\+]] -- use .gitignore
+
 -- [[ Basic Keymaps ]]
 -- Set <space> as the leader key
 -- See `:help mapleader`
@@ -140,7 +151,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 require('lualine').setup {
   options = {
     icons_enabled = false,
-    theme = 'onedark',
+    -- theme = 'onedark',
     component_separators = '|',
     section_separators = '',
   },
@@ -150,7 +161,7 @@ require('hardline').setup {
  bufferline = true,
   bufferline_settings = {
       exclude_terminal = false,
-      show_index = true,
+      show_index = false,
       separator = '|',
   },
 }
