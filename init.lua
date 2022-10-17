@@ -26,7 +26,9 @@ require('packer').startup(function(use)
   use 'tpope/vim-sleuth'                                                               -- Detect tabstop and shiftwidth automatically
   -- use 'jeetsukumaran/vim-buffergator'
   use 'tikhomirov/vim-glsl'
-  use {'ojroques/nvim-hardline'}
+  -- use {'ojroques/nvim-hardline'}
+  -- using packer.nvim
+  use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
 
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -157,14 +159,17 @@ require('lualine').setup {
   },
 }
 
-require('hardline').setup {
- bufferline = true,
-  bufferline_settings = {
-      exclude_terminal = false,
-      show_index = false,
-      separator = '|',
-  },
-}
+-- require('hardline').setup {
+--  bufferline = true,
+--   bufferline_settings = {
+--       exclude_terminal = false,
+--       show_index = false,
+--       separator = '|',
+--   },
+-- }
+
+vim.opt.termguicolors = true
+require("bufferline").setup{}
 
 -- Enable Comment.nvim
 require('Comment').setup()
