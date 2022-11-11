@@ -179,7 +179,12 @@ require('lualine').setup {
 -- }
 
 vim.opt.termguicolors = true
-require("bufferline").setup{}
+
+require("bufferline").setup{
+  options = {
+    numbers = "buffer_id"
+  }
+}
 
 -- Enable Comment.nvim
 require('Comment').setup()
