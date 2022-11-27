@@ -29,6 +29,7 @@ require('packer').startup(function(use)
   -- use {'ojroques/nvim-hardline'}
   -- using packer.nvim
   use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
+  use 'PhilRunninger/bufselect'
 
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -455,6 +456,23 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
+
+-- Functional wrapper for mapping custom keybindings
+function map(mode, lhs, rhs, opts)
+    local options = { noremap = true }
+    if opts then
+        options = vim.tbl_extend("force", options, opts)
+    end
+    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+end
+
+-- nnoremap <silent> <leader>b :ShowBufferList<CR>
+
+map("n", "<Leader>b", ":ShowBufferList<CR>")
+-- map("n", ",<Space>", ":nohlsearch<CR>", { silent = true })
+-- map("n", "<Leader>", ":<C-u>WhichKey ','<CR>" { silent = true })
+-- map("n", "<Leader>?", ":WhichKey ','<CR>")
+-- map("n", "<Leader>a", ":cclose<CR>")
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
