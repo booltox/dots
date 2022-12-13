@@ -27,10 +27,17 @@ require('packer').startup(function(use)
   -- use 'jeetsukumaran/vim-buffergator'
   use 'tikhomirov/vim-glsl'
   -- use {'ojroques/nvim-hardline'}
-  -- using packer.nvim
-  use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
   use 'PhilRunninger/bufselect'
-
+  -- 
+  use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
+  -- use({
+  --   'noib3/nvim-cokeline',
+  --   requires = 'kyazdani42/nvim-web-devicons', -- If you want devicons
+  --   config = function()
+  --     require('cokeline').setup()
+  --   end
+  -- })
+  -- 
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
 
@@ -103,6 +110,7 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 })
 
 -- [[ Setting options ]]
+vim.opt.termguicolors = true
 -- See `:help vim.o`
 
 -- Set highlight on search
@@ -154,6 +162,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Keymaps for better default experience
+vim.keymap.set('i', 'jj', '<esc>', { silent = true })
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
