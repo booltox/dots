@@ -71,17 +71,27 @@ require('packer').startup(function(use)
   use 'arcticicestudio/nord-vim'
 
   -- Unless you are still migrating, remove the deprecated commands from v1.x
-  vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
+  -- vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
+  -- use {
+  --   "nvim-neo-tree/neo-tree.nvim",
+  --   branch = "v2.x",
+  --   requires = { 
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+  --     "MunifTanjim/nui.nvim",
+  --   }
+  -- }
 
   use {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v2.x",
-    requires = { 
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-      "MunifTanjim/nui.nvim",
-    }
+    'nvim-tree/nvim-tree.lua',
+    requires = {
+      'nvim-tree/nvim-web-devicons', -- optional
+    },
+    config = function()
+      require("nvim-tree").setup {}
+    end
   }
+
 
   if is_bootstrap then
     require('packer').sync()
@@ -201,8 +211,6 @@ require('lualine').setup {
 --       separator = '|',
 --   },
 -- }
-
-vim.opt.termguicolors = true
 
 require("bufferline").setup{
   options = {
