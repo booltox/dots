@@ -223,10 +223,7 @@ require('Comment').setup()
 
 -- Enable `lukas-reineke/indent-blankline.nvim`
 -- See `:help indent_blankline.txt`
-require('indent_blankline').setup {
-  char = '┊',
-  show_trailing_blankline_indent = false,
-}
+require("ibl").setup()
 
 -- Gitsigns
 -- See `:help gitsigns.txt`
@@ -406,12 +403,12 @@ require('mason').setup()
 local servers = { 
   "clangd", 
   "rust_analyzer", 
-  "zls", 
+  "zls" 
   -- "clang-format", 
-  "cmakelang", 
+  -- "cmakelang", 
   -- "cpplint", 
-  "lua-language-server", 
-  "cmake-language-server" 
+  -- "lua-language-server", 
+  -- "cmake-language-server" 
 }
 
 -- Ensure the servers above are installed
