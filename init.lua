@@ -494,6 +494,11 @@ map("n", "<Leader>b", ":ShowBufferList<CR>")
 -- map("n", "<Leader>?", ":WhichKey ','<CR>")
 -- map("n", "<Leader>a", ":cclose<CR>")
 
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 
