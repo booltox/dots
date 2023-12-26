@@ -68,6 +68,7 @@ require('packer').startup(function(use)
   use 'srcery-colors/srcery-vim'
   use 'mjlbach/onedark.nvim'                                                           -- Theme inspired by Atom
   use 'Mofiqul/dracula.nvim'
+  use "EdenEast/nightfox.nvim" -- Packer
   use 'arcticicestudio/nord-vim'
 
   -- Unless you are still migrating, remove the deprecated commands from v1.x
@@ -92,6 +93,20 @@ require('packer').startup(function(use)
     end
   }
 
+  -- Lua
+  use("gbprod/yanky.nvim")
+  require("yanky").setup({
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  })
+
+  use({
+    "stevearc/oil.nvim",
+    config = function()
+      require("oil").setup()
+    end,
+  })
 
   if is_bootstrap then
     require('packer').sync()
@@ -502,3 +517,9 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 
+vim.keymap.set({"n","x"}, "p", "<Plug>(YankyPutAfter)")
+vim.keymap.set({"n","x"}, "P", "<Plug>(YankyPutBefore)")
+vim.keymap.set({"n","x"}, "gp", "<Plug>(YankyGPutAfter)")
+vim.keymap.set({"n","x"}, "gP", "<Plug>(YankyGPutBefore)")
+vim.keymap.set("n", "<c-n>", "<Plug>(YankyCycleForward)")
+vim.keymap.set("n", "<c-p>", "<Plug>(YankyCycleBackward)")
