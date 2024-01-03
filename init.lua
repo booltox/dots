@@ -70,6 +70,13 @@ require('packer').startup(function(use)
   use 'Mofiqul/dracula.nvim'
   use "EdenEast/nightfox.nvim" -- Packer
   use 'arcticicestudio/nord-vim'
+  use "daschw/leaf.nvim"
+
+  use { 'gen740/SmoothCursor.nvim',
+  config = function()
+    require('smoothcursor').setup()
+  end
+  }
 
   -- Unless you are still migrating, remove the deprecated commands from v1.x
   -- vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
